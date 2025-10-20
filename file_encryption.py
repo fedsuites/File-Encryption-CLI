@@ -3,7 +3,7 @@ import os
 import time
 from colorama import Fore, Style, init
 init(autoreset=True)
-
+filename="secret.key"
 def main():
     menu()
 
@@ -48,17 +48,19 @@ def menu():
                 continue
 
 def generate_keys():
-    if not os.path.exists("secret.key"):
+    if not os.path.exists(filename):
         key = Fernet.generate_key()
-        with open("secret.key", "wb") as key_file:
+        with open(filename, "wb") as key_file:
             key_file.write(key)
         print("✅ Key generated and saved as 'secret.key'")
+        return key
     else:
         print("Key already exists. Using the existing one.")
+ 
 
 def load_keys():
     try:
-        with open("secret.key", "rb") as key_load:
+        with open(filename, "rb") as key_load:
             key = key_load.read()
         return key
     except FileNotFoundError:
@@ -76,7 +78,7 @@ def encrypt_file(filename, key):
         print(f"🔒 File '{filename}' has been encrypted successfully.")
     except Exception as e:
         print(Fore.RED + f"❌ Error encrypting file '{filename}': {e}")
-
+     
 def decrypt_file(filename, key):
     try:
         fernet = Fernet(key)
