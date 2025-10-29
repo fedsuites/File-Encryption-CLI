@@ -64,7 +64,7 @@ def load_keys():
             key = key_load.read()
         return key
     except FileNotFoundError:
-        print(Fore.RED + "❌ Key file 'secret.key' not found.")
+        print(Fore.RED + f"❌ Key file '{filename}' not found.")
         return None
 
 def encrypt_file(filename, key):

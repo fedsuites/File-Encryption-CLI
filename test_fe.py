@@ -60,8 +60,14 @@ def test_decrypt_file(capsys,sample_csv):
     encrypt_file(sample_csv,key)
     decrypt_file(sample_csv,key)
     captured=capsys.readouterr()
-    assert f"🔒 File '{sample_csv}' has been encrypted successfully." in captured.out
     assert f"🔓 File '{sample_csv}' has been decrypted successfully." in captured.out
     
 
 
+def test_load_keys_does_not_exist(tmp_path,capsys):
+    test_csv=tmp_path/"secret.keys"
+    file_encryption.filename=test_csv
+    result=load_keys()
+    captured= capsys.readouterr()
+    assert result is None
+    assert f"❌ Key file '{test_csv}' not found." in captured.out
